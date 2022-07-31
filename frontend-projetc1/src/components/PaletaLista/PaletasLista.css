@@ -83,6 +83,14 @@
   background-color: rgb(84, 18, 112);
 }
 
+.Acoes__remover {
+  background-color: red;
+}
+
+.Acoes__remover:hover{
+  background-color: rgb(82, 3, 3);
+}
+
 .Acoes__adicionar--preencher {
   width: 100%;
 }
