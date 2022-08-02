@@ -1,48 +1,35 @@
-import React, {useState} from "react";
-import "./PaletasLista.css";
-import { paletas } from "moks/paletas.js";
+import { paletas } from "../../moks/paletas";
+import "../PaletaLista/PaletasLista.css";
+import { useState } from "react";
+import PaletaListaItem from "../PaletaListaItem/PaletaListaItem";
 
 function PaletaLista() {
-    
-    const [paletaSelecionada, setPaletaSelecionada] = useState({});
-    
-    const adicionarItem = (paletaIndex) => {
-        const paleta = { [paletaIndex]: Number(paletaSelecionada[paletaIndex] || 0) + 1 }
-        setPaletaSelecionada({ ...paletaSelecionada, ...paleta });
-    }
-    
-    const removerItem = (paletaIndex) => {
-        const paleta = { [paletaIndex]: Number(paletaSelecionada[paletaIndex] || 0) - 1 }
-        setPaletaSelecionada({ ...paletaSelecionada, ...paleta });
-    }
-  
-    const badgeCounter = (canRender, index) =>
-      Boolean(canRender) && (<span className="PaletaListaItem__badge">{paletaSelecionada[index]}</span>)
-      
-    const removeButton = (canRender, index) =>
-      Boolean(canRender) && (<button className="Acoes__remover" onClick={()=>removerItem(index)}>Remover</button>)
-      
+  const [paletaSelecionada, setPaletaSelecionada] = useState({});
+
+  const adicionarItem = (paletaIndex) => {
+    const paletas = {[paletaIndex]: (paletaSelecionada[paletaIndex] || 0) + 1}
+    setPaletaSelecionada({ ...paletaSelecionada, ...paletas });
+  };
+
+
+  const removerItem = (paletaIndex) => {
+        const paleta = { [paletaIndex]: Number(paletaSelecionada[paletaIndex] || 0) -1 }
+        setPaletaSelecionada({...paletaSelecionada, ...paleta});
+}
+
   return (
     <div className="PaletaLista">
-      {paletas.map((paleta, index) => (
-    <div className="PaletaListaItem" key={`PaletaListaItem-${index}`}>
-              {badgeCounter(paletaSelecionada[index],index)}
-        <div>
-            <div className="PaletaListaItem__titulo"> {paleta.titulo}</div>
-            <div className="PaletaListaItem__preco">{" "}R$ {paleta.preco.toFixed(2)}{" "}</div>
-            <div className="PaletaListaItem__descricao">{" "}{paleta.descricao}{" "}</div>
-            <div className="PaletaListaItem__acoes Acoes">
-                <button className={`Acoes__adicionar ${!paletaSelecionada[index] && "Acoes__adicionar--preencher"}`} onClick={()=> adicionarItem(index)}>adicionar</button>
-                {removeButton(paletaSelecionada[index], index)}
-            </div>
-        </div>
-        <img
-        className="PaletaListaItem__foto"
-        src={paleta.foto}
-        alt={`Paleta de ${paleta.sabor}`}/>
-    </div>
-      ))}
-    </div>
+	{paletas.map((paleta, index) =>
+		<PaletaListaItem
+			key={`PaletaListaItem-${index}`}
+			paleta={paleta}
+			quantidadeSelecionada={paletaSelecionada[index]}
+			index={index}
+			onAdd={index => adicionarItem(index)}
+			onRemove={index => removerItem(index)} />
+		)
+	}
+</div>
   );
 }
 
