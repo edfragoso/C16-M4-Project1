@@ -7,9 +7,7 @@ function PaletaListaItem({
   onRemove,
   onAdd,
 }) {
-  const removerItem = (i) => console.log("remover" + i);
-  const adicionarItem = (i) => console.log("adicionar" + i);
-
+  
   const removeButton = (canRender, index) =>
     Boolean(canRender) && (<button className="Acoes__remover" onClick={() => onRemove(index)}>remover</button>)
       
