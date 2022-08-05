@@ -45,6 +45,7 @@ function PaletaLista() {
           index={index}
           onAdd={(index) => adicionarItem(index)}
           onRemove={(index) => removerItem(index)}
+          clickItem = {(paletaId)=> setPaletaModal(paleta)}
         />
       ))}
       {paletaModal && <PaletaDetalhesModal paleta ={paletaModal} closeModal={() => setPaletaModal(false)}/>}
