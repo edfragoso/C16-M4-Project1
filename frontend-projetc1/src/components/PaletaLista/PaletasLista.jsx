@@ -31,6 +31,12 @@ function PaletaLista() {
     setPaletas(response);
   };
 
+  
+  const getPaletaById = async (paletaId) => {
+    const response = await PaletaService.getById(paletaId);
+    setPaletaModal(response);
+  };
+
   useEffect(() => {
     getLista();
   }, []);
@@ -45,7 +51,7 @@ function PaletaLista() {
           index={index}
           onAdd={(index) => adicionarItem(index)}
           onRemove={(index) => removerItem(index)}
-          clickItem = {(paletaId)=> setPaletaModal(paleta)}
+          clickItem = {(paletaId)=> getPaletaById(paletaId)}
         />
       ))}
       {paletaModal && <PaletaDetalhesModal paleta ={paletaModal} closeModal={() => setPaletaModal(false)}/>}
