@@ -1,8 +1,9 @@
 import "./NavBar.css";
 import sacola from "assets/icons/sacola.svg";
+import paleta from "assets/icons/picole.png"
 import logo from "assets/logo.svg";
 
-function NavBar() {
+function NavBar(createPaleta) {
   return (
     <div className="Home__header Header">
       <div className="row">
@@ -11,11 +12,15 @@ function NavBar() {
           <span className="Logo__titulo"> El Geladon </span>
         </div>
         <div className="Header__opcoes Opcoes">
+          <button type="button" className="Opcoes__paleta" onClick={() => createPaleta()}>
+            <img src={paleta} width="40px" className="Paleta__icone" title="Adcionar Paleta" alt="adicionar paleta" />
+          </button>
           <div className="Opcoes__sacola Sacola">
             <img
               src={sacola}
               width="40px"
               className="Sacola__icone"
+              title="Sacola"
               alt="Sacola de compras"
             />
           </div>
