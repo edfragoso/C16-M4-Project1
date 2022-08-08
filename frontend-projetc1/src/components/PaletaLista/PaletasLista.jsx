@@ -1,11 +1,11 @@
 /* import { paletas } from "../../moks/paletas"; */
-import '../PaletaLista/PaletasLista.css';
+import './PaletasLista.css';
 import { useState, useEffect } from 'react';
 import PaletaListaItem from '../PaletaListaItem/PaletaListaItem';
 import { PaletaService } from 'services/PaletaService';
 import PaletaDetalhesModal from 'components/PaletaDetalhesModal/PaletaDetalhesModal';
 
-function PaletaLista() {
+function PaletaLista({ paletaCriada }) {
   const [paletas, setPaletas] = useState([]);
 
   const [paletaSelecionada, setPaletaSelecionada] = useState({});
@@ -14,7 +14,7 @@ function PaletaLista() {
 
   const adicionarItem = (paletaIndex) => {
     const paletas = {
-      [paletaIndex]: (paletaSelecionada[paletaIndex] || 0) + 1,
+      [paletaIndex]: Number(paletaSelecionada[paletaIndex] || 0) + 1,
     };
     setPaletaSelecionada({ ...paletaSelecionada, ...paletas });
   };
@@ -31,15 +31,23 @@ function PaletaLista() {
     setPaletas(response);
   };
 
-  
   const getPaletaById = async (paletaId) => {
     const response = await PaletaService.getById(paletaId);
     setPaletaModal(response);
   };
 
+  const adicionaPaletaNaLista = (paleta) => {
+    const lista = [...paletas, paleta];
+    setPaletas(lista);
+  };
+
   useEffect(() => {
     getLista();
   }, []);
+
+  useEffect(() => {
+    if (paletaCriada) adicionaPaletaNaLista(paletaCriada);
+  }, [paletaCriada]);
 
   return (
     <div className="PaletaLista">
@@ -51,10 +59,15 @@ function PaletaLista() {
           index={index}
           onAdd={(index) => adicionarItem(index)}
           onRemove={(index) => removerItem(index)}
-          clickItem = {(paletaId)=> getPaletaById(paletaId)}
+          clickItem={(paletaId) => getPaletaById(paletaId)}
         />
       ))}
-      {paletaModal && <PaletaDetalhesModal paleta ={paletaModal} closeModal={() => setPaletaModal(false)}/>}
+      {paletaModal && (
+        <PaletaDetalhesModal
+          paleta={paletaModal}
+          closeModal={() => setPaletaModal(false)}
+        />
+      )}
     </div>
   );
 }
